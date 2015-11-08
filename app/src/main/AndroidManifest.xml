@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="mq.org.noteapp" >
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+
+    <application
+        android:name="mq.org.smile.SmileApplication"
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:supportsRtl="true"
+        android:theme="@style/android:Theme.Holo.Light" >
+        <activity
+            android:name="mq.org.smile.MainActivity"
+            android:screenOrientation="portrait"
+            android:label="@string/app_name" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="mq.org.smile.LoginActivity"
+            android:screenOrientation="portrait"
+            android:label="@string/title_activity_login" >
+        </activity>
+        <activity
+            android:name="mq.org.smile.SignUpActivity"
+            android:screenOrientation="portrait"
+            android:label="@string/title_activity_sign_up" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="mq.org.smile.LoginActivity" />
+        </activity>
+        <activity
+            android:name="mq.org.smile.PlayActivity"
+            android:screenOrientation="portrait"
+            android:label="@string/title_activity_play" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="mq.org.smile.MainActivity" />
+        </activity>
+        <activity
+            android:name="mq.org.smile.RecordActivity"
+            android:screenOrientation="portrait"
+            android:label="@string/title_activity_record" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="mq.org.smile.MainActivity" />
+        </activity>
+    </application>
+
+</manifest>
