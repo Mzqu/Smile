@@ -33,10 +33,12 @@ import mq.org.noteapp.R;
 
 
 public class RecordActivity extends Activity {
-    Button play,stop,record,send;
+    Button play,stop,record,send,retry;
+    RecordingProgressCircle circle;
     ParseFile file;
     Handler h;
     private MediaRecorder myAudioRecorder;
+    private MediaPlayer m;
     private String outputFile = null;
 
     @Override
@@ -50,9 +52,12 @@ public class RecordActivity extends Activity {
         stop=(Button)findViewById(R.id.button2);
         record=(Button)findViewById(R.id.button);
         send=(Button)findViewById(R.id.button4);
+        retry=(Button)findViewById(R.id.button5);
+        circle=(RecordingProgressCircle)findViewById(R.id.progressCircle);
 
-        stop.setEnabled(false);
-        play.setEnabled(false);
+        stop.setVisibility(View.INVISIBLE);
+        play.setVisibility(View.INVISIBLE);
+        retry.setEnabled(false);
         send.setEnabled(false);
         outputFile = Environment.getExternalStorageDirectory().getAbsolutePath() + "/recording.3gp";
 
@@ -75,19 +80,21 @@ public class RecordActivity extends Activity {
                     e.printStackTrace();
                 }
 
-                record.setEnabled(false);
+                record.setVisibility(View.INVISIBLE);
+                circle.start(30000);
 
                 h = new Handler();
                 h.postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        stop.setEnabled(true);
+                        stop.setVisibility(View.VISIBLE);
                     }
                 }, 2000);
 
                 h.postDelayed(new Runnable() {
                     @Override
                     public void run() {
+                        h.removeCallbacksAndMessages(null);
                         stopRecord();
                     }
                 }, 30000);
@@ -105,8 +112,8 @@ public class RecordActivity extends Activity {
         play.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) throws IllegalArgumentException,SecurityException,IllegalStateException {
-                play.setEnabled(false);
-                MediaPlayer m = new MediaPlayer();
+                play.setVisibility(View.INVISIBLE);
+                m = new MediaPlayer();
 
                 try {
                     m.setDataSource(outputFile);
@@ -125,10 +132,12 @@ public class RecordActivity extends Activity {
                 }
 
                 m.start();
+                circle.start(m.getDuration());
                 m.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
                     @Override
                     public void onCompletion(MediaPlayer mediaPlayer) {
-                        play.setEnabled(true);
+                        play.setVisibility(View.VISIBLE);
+                        circle.clear();
                     }
                 });
             }
@@ -137,10 +146,13 @@ public class RecordActivity extends Activity {
         send.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v){
-                play.setEnabled(false);
-                record.setEnabled(false);
+                if(m != null)
+                    m.stop();
+                play.setVisibility(View.INVISIBLE);
+                record.setVisibility(View.INVISIBLE);
                 send.setEnabled(false);
-                stop.setEnabled(false);
+                retry.setEnabled(false);
+                stop.setVisibility(View.INVISIBLE);
 
                 final ProgressDialog progressBar = new ProgressDialog(v.getContext());
                 progressBar.setCancelable(true);
@@ -181,7 +193,7 @@ public class RecordActivity extends Activity {
                                 }
                             });
                         } else {
-                            object.put("amount", (int)object.get("amount") + 1);
+                            object.put("amount", (int) object.get("amount") + 1);
                             object.saveInBackground(new SaveCallback() {
                                 @Override
                                 public void done(ParseException e) {
@@ -191,6 +203,19 @@ public class RecordActivity extends Activity {
                         }
                     }
                 });
+            }
+        });
+        retry.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(m != null)
+                    m.stop();
+                record.setVisibility(View.VISIBLE);
+                stop.setVisibility(View.INVISIBLE);
+                play.setVisibility(View.INVISIBLE);
+                retry.setEnabled(false);
+                circle.clear();
+                send.setEnabled(false);
             }
         });
     }
@@ -215,10 +240,11 @@ public class RecordActivity extends Activity {
         myAudioRecorder.release();
         myAudioRecorder  = null;
 
-        stop.setEnabled(false);
-        play.setEnabled(true);
+        stop.setVisibility(View.INVISIBLE);
+        play.setVisibility(View.VISIBLE);
+        circle.clear();
         send.setEnabled(true);
-        record.setEnabled(true);
+        retry.setEnabled(true);
 
         byte[] data = AudioFileToBytes(outputFile);
         file = new ParseFile("recording.3gpp", data);
@@ -270,6 +296,19 @@ public class RecordActivity extends Activity {
         }
         return null;
     }
+
+    @Override
+    protected void onPause(){
+        h.removeCallbacksAndMessages(null);
+        if(m != null)
+            m.stop();
+        if(myAudioRecorder != null) {
+            myAudioRecorder.release();
+            myAudioRecorder = null;
+        }
+        super.onPause();
+    }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
