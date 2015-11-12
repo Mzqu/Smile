@@ -16,15 +16,13 @@ import com.parse.LogInCallback;
 import com.parse.ParseException;
 import com.parse.ParseUser;
 
-import mq.org.noteapp.R;
-
 public class LoginActivity extends Activity {
 
     protected EditText usernameEditText;
     protected EditText passwordEditText;
     protected Button loginButton;
 
-    protected TextView signUpTextView;
+    protected TextView signUpTextView, resetPasswordTextView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,11 +33,20 @@ public class LoginActivity extends Activity {
         usernameEditText = (EditText)findViewById(R.id.usernameField);
         passwordEditText = (EditText)findViewById(R.id.passwordField);
         loginButton = (Button)findViewById(R.id.loginButton);
+        resetPasswordTextView = (TextView)findViewById(R.id.resetPassword);
 
         signUpTextView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(LoginActivity.this, SignUpActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        resetPasswordTextView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(LoginActivity.this, ResetPasswordActivity.class);
                 startActivity(intent);
             }
         });
@@ -64,7 +71,7 @@ public class LoginActivity extends Activity {
                 }
                 else {
                     final ProgressDialog progressBar = new ProgressDialog(v.getContext());
-                    progressBar.setCancelable(true);
+                    progressBar.setCanceledOnTouchOutside(false);
                     progressBar.setMessage("Logging in...");
                     progressBar.setProgressStyle(ProgressDialog.STYLE_SPINNER);
                     progressBar.show();

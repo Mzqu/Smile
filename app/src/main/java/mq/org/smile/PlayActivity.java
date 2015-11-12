@@ -28,8 +28,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.LinkedList;
 
-import mq.org.noteapp.R;
-
 public class PlayActivity extends Activity {
     MediaPlayer m;
 
@@ -51,7 +49,7 @@ public class PlayActivity extends Activity {
             public void onClick(View view) {
                 request.setVisibility(View.INVISIBLE);
                 final ProgressDialog progressBar = new ProgressDialog(view.getContext());
-                progressBar.setCancelable(true);
+                progressBar.setCanceledOnTouchOutside(false);
                 progressBar.setMessage("Requesting...");
                 progressBar.setProgressStyle(ProgressDialog.STYLE_SPINNER);
                 progressBar.show();
@@ -132,7 +130,7 @@ public class PlayActivity extends Activity {
 
                                                                     final Dialog rankDialog = new Dialog(PlayActivity.this, R.style.FullHeightDialog);
                                                                     rankDialog.setContentView(R.layout.rank_dialog);
-                                                                    rankDialog.setCancelable(true);
+                                                                    rankDialog.setCanceledOnTouchOutside(false);
                                                                     final RatingBar ratingBar = (RatingBar) rankDialog.findViewById(R.id.dialog_ratingbar);
 
                                                                     TextView text = (TextView) rankDialog.findViewById(R.id.rank_dialog_text1);

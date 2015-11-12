@@ -16,9 +16,8 @@ import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
 
-import mq.org.noteapp.R;
-
 public class MainActivity extends Activity {
+    private boolean loadBar = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,14 +49,20 @@ public class MainActivity extends Activity {
 
     @Override
     protected void onResume(){
-        updateStuff();
+        loadBar = true;
         super.onResume();
+        updateStuff();
+    }
+
+    @Override
+    protected void onPause(){
+        super.onPause();
+        loadBar = false;
     }
 
     private void updateStuff(){
-
         final ProgressDialog progressBar = new ProgressDialog(this);
-        progressBar.setCancelable(true);
+        progressBar.setCanceledOnTouchOutside(false);
         progressBar.setMessage("Updating...");
         progressBar.setProgressStyle(ProgressDialog.STYLE_SPINNER);
         progressBar.show();
@@ -67,7 +72,8 @@ public class MainActivity extends Activity {
         query.getFirstInBackground(new GetCallback<ParseObject>() {
             @Override
             public void done(ParseObject obj, ParseException e) {
-                progressBar.dismiss();
+                if(loadBar)
+                    progressBar.dismiss();
 
                 if (obj == null)
                     ((TextView) findViewById(R.id.points)).setText("0 points");
@@ -107,6 +113,8 @@ public class MainActivity extends Activity {
             }
 
             case R.id.action_new: {
+                Intent intent = new Intent(MainActivity.this, ProfileActivity.class);
+                startActivity(intent);
                 break;
             }
             case R.id.action_settings: {

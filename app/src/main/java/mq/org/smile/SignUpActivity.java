@@ -15,8 +15,6 @@ import com.parse.ParseException;
 import com.parse.ParseUser;
 import com.parse.SignUpCallback;
 
-import mq.org.noteapp.R;
-
 public class SignUpActivity extends Activity {
 
     protected EditText usernameEditText;
@@ -56,7 +54,7 @@ public class SignUpActivity extends Activity {
                 }
                 else {
                     final ProgressDialog progressBar = new ProgressDialog(v.getContext());
-                    progressBar.setCancelable(true);
+                    progressBar.setCanceledOnTouchOutside(false);
                     progressBar.setMessage("Logging in...");
                     progressBar.setProgressStyle(ProgressDialog.STYLE_SPINNER);
                     progressBar.show();

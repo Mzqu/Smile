@@ -29,8 +29,6 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 
-import mq.org.noteapp.R;
-
 
 public class RecordActivity extends Activity {
     Button play,stop,record,send,retry;
@@ -155,7 +153,7 @@ public class RecordActivity extends Activity {
                 stop.setVisibility(View.INVISIBLE);
 
                 final ProgressDialog progressBar = new ProgressDialog(v.getContext());
-                progressBar.setCancelable(true);
+                progressBar.setCanceledOnTouchOutside(false);
                 progressBar.setMessage("Sending...");
                 progressBar.setProgressStyle(ProgressDialog.STYLE_SPINNER);
                 progressBar.show();
@@ -299,7 +297,8 @@ public class RecordActivity extends Activity {
 
     @Override
     protected void onPause(){
-        h.removeCallbacksAndMessages(null);
+        if(h != null)
+            h.removeCallbacksAndMessages(null);
         if(m != null)
             m.stop();
         if(myAudioRecorder != null) {
