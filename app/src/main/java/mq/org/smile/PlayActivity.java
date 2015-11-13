@@ -28,7 +28,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.LinkedList;
 
-public class PlayActivity extends Activity {
+public class PlayActivity extends SwipeableActivity{
     MediaPlayer m;
 
     @Override
@@ -49,7 +49,7 @@ public class PlayActivity extends Activity {
             public void onClick(View view) {
                 request.setVisibility(View.INVISIBLE);
                 final ProgressDialog progressBar = new ProgressDialog(view.getContext());
-                progressBar.setCanceledOnTouchOutside(false);
+                progressBar.setCancelable(false);
                 progressBar.setMessage("Requesting...");
                 progressBar.setProgressStyle(ProgressDialog.STYLE_SPINNER);
                 progressBar.show();
@@ -130,7 +130,7 @@ public class PlayActivity extends Activity {
 
                                                                     final Dialog rankDialog = new Dialog(PlayActivity.this, R.style.FullHeightDialog);
                                                                     rankDialog.setContentView(R.layout.rank_dialog);
-                                                                    rankDialog.setCanceledOnTouchOutside(false);
+                                                                    rankDialog.setCancelable(false);
                                                                     final RatingBar ratingBar = (RatingBar) rankDialog.findViewById(R.id.dialog_ratingbar);
 
                                                                     TextView text = (TextView) rankDialog.findViewById(R.id.rank_dialog_text1);
@@ -154,10 +154,10 @@ public class PlayActivity extends Activity {
                                                                                         ratingBar.getRating();
                                                                                         rating.saveInBackground();
                                                                                     } else {
-                                                                                        int total = (int)object.get("total");
-                                                                                        float rate = Float.parseFloat((String)object.get("rating"));
-                                                                                        object.put("rating", "" + ((total*rate + ratingBar.getRating())/(total + 1)));
-                                                                                        object.put("total", (int)object.get("total") + 1);
+                                                                                        int total = (int) object.get("total");
+                                                                                        float rate = Float.parseFloat((String) object.get("rating"));
+                                                                                        object.put("rating", "" + ((total * rate + ratingBar.getRating()) / (total + 1)));
+                                                                                        object.put("total", (int) object.get("total") + 1);
                                                                                         object.saveInBackground();
                                                                                     }
                                                                                 }
@@ -166,7 +166,7 @@ public class PlayActivity extends Activity {
                                                                         }
                                                                     });
                                                                     //now that the dialog is set up, it's time to show it
-                                                                    if(!(boolean)rated.get(0)) {
+                                                                    if (!(boolean) rated.get(0)) {
                                                                         rankDialog.show();
                                                                         rated.set(0, true);
                                                                     }
@@ -218,6 +218,7 @@ public class PlayActivity extends Activity {
             m.stop();
         this.finish();
         super.onBackPressed();
+        overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_right);
     }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -240,5 +241,4 @@ public class PlayActivity extends Activity {
         }
         return super.onOptionsItemSelected(item);
     }
-
 }

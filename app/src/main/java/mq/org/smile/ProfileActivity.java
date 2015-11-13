@@ -1,6 +1,5 @@
 package mq.org.smile;
 
-import android.app.Activity;
 import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.view.Menu;
@@ -13,7 +12,7 @@ import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
 
-public class ProfileActivity extends Activity {
+public class ProfileActivity extends SwipeableActivity{
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,7 +25,7 @@ public class ProfileActivity extends Activity {
 
     public void update(){
         final ProgressDialog progressBar = new ProgressDialog(this);
-        progressBar.setCanceledOnTouchOutside(false);
+        progressBar.setCancelable(false);
         progressBar.setMessage("Loading...");
         progressBar.setProgressStyle(ProgressDialog.STYLE_SPINNER);
         progressBar.show();
@@ -39,21 +38,21 @@ public class ProfileActivity extends Activity {
             @Override
             public void done(ParseObject parseObject, ParseException e) {
                 progressBar.dismiss();
-                if(parseObject == null)
-                    ((TextView)findViewById(R.id.points)).setText("0 points");
+                if (parseObject == null)
+                    ((TextView) findViewById(R.id.points)).setText("0 points");
                 else
-                    ((TextView)findViewById(R.id.points)).setText(parseObject.get("amount") + " points");
+                    ((TextView) findViewById(R.id.points)).setText(parseObject.get("amount") + " points");
                 final ParseQuery<ParseObject> ratingQuery = ParseQuery.getQuery("Rating");
                 ratingQuery.whereEqualTo("author", ParseUser.getCurrentUser());
                 ratingQuery.getFirstInBackground(new GetCallback<ParseObject>() {
                     @Override
                     public void done(ParseObject parseObject, ParseException e) {
-                        if(parseObject == null)
-                            ((TextView)findViewById(R.id.rating)).setText("No rating yet.");
+                        if (parseObject == null)
+                            ((TextView) findViewById(R.id.rating)).setText("No rating yet.");
                         else {
-                            float temp = Float.parseFloat((String)parseObject.get("rating"));
-                            int temp2 = (int)(temp * 10);
-                            double fin = temp2/10;
+                            float temp = Float.parseFloat((String) parseObject.get("rating"));
+                            int temp2 = (int) (temp * 10);
+                            double fin = temp2 / 10;
                             ((TextView) findViewById(R.id.rating)).setText("Rating: " + fin);
                         }
                     }
@@ -85,5 +84,11 @@ public class ProfileActivity extends Activity {
             onBackPressed();
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onBackPressed(){
+        super.onBackPressed();
+        overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_right);
     }
 }

@@ -40,6 +40,7 @@ public class LoginActivity extends Activity {
             public void onClick(View v) {
                 Intent intent = new Intent(LoginActivity.this, SignUpActivity.class);
                 startActivity(intent);
+                overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_left);
             }
         });
 
@@ -48,6 +49,7 @@ public class LoginActivity extends Activity {
             public void onClick(View view) {
                 Intent intent = new Intent(LoginActivity.this, ResetPasswordActivity.class);
                 startActivity(intent);
+                overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_left);
             }
         });
 
@@ -71,7 +73,7 @@ public class LoginActivity extends Activity {
                 }
                 else {
                     final ProgressDialog progressBar = new ProgressDialog(v.getContext());
-                    progressBar.setCanceledOnTouchOutside(false);
+                    progressBar.setCancelable(false);
                     progressBar.setMessage("Logging in...");
                     progressBar.setProgressStyle(ProgressDialog.STYLE_SPINNER);
                     progressBar.show();

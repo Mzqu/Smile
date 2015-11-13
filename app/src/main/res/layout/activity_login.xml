@@ -13,6 +13,7 @@
         android:layout_height="match_parent">
 
         <EditText
+            android:singleLine="true"
             android:id="@+id/usernameField"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -25,6 +26,7 @@
         </EditText>
 
         <EditText
+            android:singleLine="true"
             android:id="@+id/passwordField"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

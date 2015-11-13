@@ -1,6 +1,5 @@
 package mq.org.smile;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
@@ -13,7 +12,7 @@ import com.parse.ParseException;
 import com.parse.ParseUser;
 import com.parse.RequestPasswordResetCallback;
 
-public class ResetPasswordActivity extends Activity {
+public class ResetPasswordActivity extends SwipeableActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

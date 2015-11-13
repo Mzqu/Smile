@@ -1,6 +1,5 @@
 package mq.org.smile;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
@@ -15,8 +14,7 @@ import com.parse.ParseException;
 import com.parse.ParseUser;
 import com.parse.SignUpCallback;
 
-public class SignUpActivity extends Activity {
-
+public class SignUpActivity extends SwipeableActivity {
     protected EditText usernameEditText;
     protected EditText passwordEditText;
     protected EditText emailEditText;
@@ -54,7 +52,7 @@ public class SignUpActivity extends Activity {
                 }
                 else {
                     final ProgressDialog progressBar = new ProgressDialog(v.getContext());
-                    progressBar.setCanceledOnTouchOutside(false);
+                    progressBar.setCancelable(false);
                     progressBar.setMessage("Logging in...");
                     progressBar.setProgressStyle(ProgressDialog.STYLE_SPINNER);
                     progressBar.show();

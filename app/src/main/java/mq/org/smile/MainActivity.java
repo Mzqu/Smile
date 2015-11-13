@@ -34,7 +34,7 @@ public class MainActivity extends Activity {
             public void onClick(View view) {
                 Intent intent = new Intent(MainActivity.this, RecordActivity.class);
                 startActivity(intent);
-
+                overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_left);
             }
         });
 
@@ -43,6 +43,7 @@ public class MainActivity extends Activity {
             public void onClick(View view) {
                 Intent intent = new Intent(MainActivity.this, PlayActivity.class);
                 startActivity(intent);
+                overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_left);
             }
         });
     }
@@ -62,7 +63,7 @@ public class MainActivity extends Activity {
 
     private void updateStuff(){
         final ProgressDialog progressBar = new ProgressDialog(this);
-        progressBar.setCanceledOnTouchOutside(false);
+        progressBar.setCancelable(false);
         progressBar.setMessage("Updating...");
         progressBar.setProgressStyle(ProgressDialog.STYLE_SPINNER);
         progressBar.show();
@@ -115,6 +116,7 @@ public class MainActivity extends Activity {
             case R.id.action_new: {
                 Intent intent = new Intent(MainActivity.this, ProfileActivity.class);
                 startActivity(intent);
+                overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_left);
                 break;
             }
             case R.id.action_settings: {

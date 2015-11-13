@@ -1,6 +1,5 @@
 package mq.org.smile;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
@@ -30,7 +29,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 
 
-public class RecordActivity extends Activity {
+public class RecordActivity extends SwipeableActivity{
     Button play,stop,record,send,retry;
     RecordingProgressCircle circle;
     ParseFile file;
@@ -153,7 +152,7 @@ public class RecordActivity extends Activity {
                 stop.setVisibility(View.INVISIBLE);
 
                 final ProgressDialog progressBar = new ProgressDialog(v.getContext());
-                progressBar.setCanceledOnTouchOutside(false);
+                progressBar.setCancelable(false);
                 progressBar.setMessage("Sending...");
                 progressBar.setProgressStyle(ProgressDialog.STYLE_SPINNER);
                 progressBar.show();
@@ -328,6 +327,12 @@ public class RecordActivity extends Activity {
             onBackPressed();
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onBackPressed(){
+        super.onBackPressed();
+        overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_right);
     }
 }
 
