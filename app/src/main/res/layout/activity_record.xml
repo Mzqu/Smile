@@ -2,6 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#CCFCFC"
     tools:context=".MainActivity">
 
     <LinearLayout
@@ -44,25 +45,21 @@
             android:layout_width="match_parent"
             android:layout_height="200dp">
 
-            <Button
+            <ImageButton
                 android:layout_width="90dp"
                 android:layout_height="90dp"
                 android:layout_centerInParent="true"
-                android:text="Record"
+                android:src="@drawable/record_button"
+                android:background="@null"
                 android:id="@+id/button" />
 
-            <Button
-                android:layout_width="90dp"
-                android:layout_height="90dp"
-                android:text="Stop"
-                android:id="@+id/button2"
-                android:layout_centerInParent="true" />
-
-            <Button
+            <ImageButton
                 android:layout_width="90dp"
                 android:layout_height="90dp"
                 android:layout_centerInParent="true"
-                android:text="Play"
+                android:src="@drawable/ic_play_arrow_black_24dp"
+                android:scaleType="fitCenter"
+                android:background="@drawable/round_button"
                 android:id="@+id/button3" />
 
             <mq.org.smile.RecordingProgressCircle
@@ -71,19 +68,23 @@
                 android:id="@+id/progressCircle"
                 android:layout_centerInParent="true"/>
 
-            <Button
-                android:layout_width="90dp"
+            <ImageButton
+                android:layout_width="50dp"
                 android:layout_height="50dp"
-                android:text="Send"
                 android:id="@+id/button4"
                 android:layout_centerVertical="true"
+                android:src="@drawable/ic_check_circle_black_24dp"
+                android:background="@drawable/round_button"
+                android:scaleType="fitCenter"
                 android:layout_alignParentRight="true"
                 android:layout_alignParentEnd="true" />
 
-            <Button
-                android:layout_width="90dp"
+            <ImageButton
+                android:layout_width="50dp"
                 android:layout_height="50dp"
-                android:text="Retry"
+                android:src="@drawable/ic_replay_black_24dp"
+                android:background="@drawable/round_button"
+                android:scaleType="fitCenter"
                 android:id="@+id/button5"
                 android:layout_centerVertical="true"
                 android:layout_alignParentLeft="true"

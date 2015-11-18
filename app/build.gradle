@@ -6,7 +6,7 @@ android {
 
     defaultConfig {
         applicationId "mq.org.smile"
-        minSdkVersion 11
+        minSdkVersion 14
         targetSdkVersion 22
         versionCode 1
         versionName "1.0"
@@ -25,4 +25,5 @@ dependencies {
     compile 'com.android.support:appcompat-v7:22.2.1'
     compile files('libs/bolts-android-1.2.1.jar')
     compile files('libs/Parse-1.10.3.jar')
+    compile 'com.android.support:design:22.2.0'
 }

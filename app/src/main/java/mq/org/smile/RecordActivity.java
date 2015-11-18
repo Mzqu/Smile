@@ -12,7 +12,8 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
+import android.view.animation.AnimationUtils;
+import android.widget.ImageButton;
 import android.widget.Toast;
 
 import com.parse.GetCallback;
@@ -30,10 +31,11 @@ import java.io.IOException;
 
 
 public class RecordActivity extends SwipeableActivity{
-    Button play,stop,record,send,retry;
+    ImageButton play, record, send,retry;
+    boolean recording = false;
     RecordingProgressCircle circle;
     ParseFile file;
-    Handler h;
+    Handler h = new Handler();
     private MediaRecorder myAudioRecorder;
     private MediaPlayer m;
     private String outputFile = null;
@@ -45,14 +47,12 @@ public class RecordActivity extends SwipeableActivity{
         setContentView(R.layout.activity_record);
 
 
-        play=(Button)findViewById(R.id.button3);
-        stop=(Button)findViewById(R.id.button2);
-        record=(Button)findViewById(R.id.button);
-        send=(Button)findViewById(R.id.button4);
-        retry=(Button)findViewById(R.id.button5);
+        play=(ImageButton)findViewById(R.id.button3);
+        record=(ImageButton)findViewById(R.id.button);
+        send=(ImageButton)findViewById(R.id.button4);
+        retry=(ImageButton)findViewById(R.id.button5);
         circle=(RecordingProgressCircle)findViewById(R.id.progressCircle);
 
-        stop.setVisibility(View.INVISIBLE);
         play.setVisibility(View.INVISIBLE);
         retry.setEnabled(false);
         send.setEnabled(false);
@@ -61,55 +61,75 @@ public class RecordActivity extends SwipeableActivity{
         record.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                try {
-                    myAudioRecorder=new MediaRecorder();
-                    myAudioRecorder.setAudioSource(MediaRecorder.AudioSource.MIC);
-                    myAudioRecorder.setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP);
-                    myAudioRecorder.setAudioEncoder(MediaRecorder.OutputFormat.AMR_NB);
-                    myAudioRecorder.setOutputFile(outputFile);
-                    myAudioRecorder.prepare();
-                    myAudioRecorder.start();
-                } catch (IllegalStateException e) {
-                    // TODO Auto-generated catch block
-                    e.printStackTrace();
-                } catch (IOException e) {
-                    // TODO Auto-generated catch block
-                    e.printStackTrace();
+                if (!recording) {
+                    try {
+                        myAudioRecorder = new MediaRecorder();
+                        myAudioRecorder.setAudioSource(MediaRecorder.AudioSource.MIC);
+                        myAudioRecorder.setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP);
+                        myAudioRecorder.setAudioEncoder(MediaRecorder.OutputFormat.AMR_NB);
+                        myAudioRecorder.setOutputFile(outputFile);
+                        myAudioRecorder.prepare();
+                        myAudioRecorder.start();
+                    } catch (IllegalStateException e) {
+                        // TODO Auto-generated catch block
+                        e.printStackTrace();
+                    } catch (IOException e) {
+                        // TODO Auto-generated catch block
+                        e.printStackTrace();
+                    }
+
+                    new Thread() {
+                        @Override
+                        public void run() {
+                            try {
+                                // code runs in a thread
+                                runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        record.setVisibility(View.INVISIBLE);
+                                        circle.start(30000);
+                                        record.startAnimation(AnimationUtils.loadAnimation(getApplication(), R.anim.circle_pulse));
+                                        record.setEnabled(false);
+
+                                        h.postDelayed(new Runnable() {
+                                            @Override
+                                            public void run() {
+                                                recording = true;
+                                                record.setEnabled(true);
+                                            }
+                                        }, 2000);
+
+                                        h.postDelayed(new Runnable() {
+                                            @Override
+                                            public void run() {
+                                                stopRecord();
+                                            }
+                                        }, 30000);
+                                    }
+                                });
+                            } catch (final Exception ex) {
+                                Log.i("---", "Exception in thread");
+                            }
+                        }
+                    }.start();
+                } else {
+                    new Thread() {
+                        @Override
+                        public void run() {
+                            stopRecord();
+                        }
+                    }.start();
                 }
-
-                record.setVisibility(View.INVISIBLE);
-                circle.start(30000);
-
-                h = new Handler();
-                h.postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        stop.setVisibility(View.VISIBLE);
-                    }
-                }, 2000);
-
-                h.postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        h.removeCallbacksAndMessages(null);
-                        stopRecord();
-                    }
-                }, 30000);
-            }
-        });
-
-        stop.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                h.removeCallbacksAndMessages(null);
-                stopRecord();
             }
         });
 
         play.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) throws IllegalArgumentException,SecurityException,IllegalStateException {
+            public void onClick(View v){
                 play.setVisibility(View.INVISIBLE);
+                play.startAnimation(AnimationUtils.loadAnimation(getApplication(), R.anim.circle_exit));
+
+
                 m = new MediaPlayer();
 
                 try {
@@ -133,8 +153,25 @@ public class RecordActivity extends SwipeableActivity{
                 m.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
                     @Override
                     public void onCompletion(MediaPlayer mediaPlayer) {
-                        play.setVisibility(View.VISIBLE);
-                        circle.clear();
+                        new Thread() {
+                            @Override
+                            public void run() {
+                                try {
+                                    // code runs in a thread
+                                    runOnUiThread(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            play.setVisibility(View.VISIBLE);
+                                            play.startAnimation(AnimationUtils.loadAnimation(getApplication(), R.anim.circle_enter));
+                                            circle.clear();
+                                            circle.startAnimation(AnimationUtils.loadAnimation(getApplication(), R.anim.fade_out));
+                                        }
+                                    });
+                                } catch (final Exception ex) {
+                                    Log.i("---","Exception in thread");
+                                }
+                            }
+                        }.start();
                     }
                 });
             }
@@ -149,7 +186,6 @@ public class RecordActivity extends SwipeableActivity{
                 record.setVisibility(View.INVISIBLE);
                 send.setEnabled(false);
                 retry.setEnabled(false);
-                stop.setVisibility(View.INVISIBLE);
 
                 final ProgressDialog progressBar = new ProgressDialog(v.getContext());
                 progressBar.setCancelable(false);
@@ -208,11 +244,11 @@ public class RecordActivity extends SwipeableActivity{
                 if(m != null)
                     m.stop();
                 record.setVisibility(View.VISIBLE);
-                stop.setVisibility(View.INVISIBLE);
                 play.setVisibility(View.INVISIBLE);
                 retry.setEnabled(false);
                 circle.clear();
                 send.setEnabled(false);
+                recording = false;
             }
         });
     }
@@ -233,15 +269,65 @@ public class RecordActivity extends SwipeableActivity{
     }
 
     private void stopRecord(){
-        myAudioRecorder.stop();
-        myAudioRecorder.release();
-        myAudioRecorder  = null;
+        new Thread() {
+            @Override
+            public void run() {
+                recording = false;
 
-        stop.setVisibility(View.INVISIBLE);
-        play.setVisibility(View.VISIBLE);
-        circle.clear();
-        send.setEnabled(true);
-        retry.setEnabled(true);
+                if(h != null){
+                    h.removeCallbacksAndMessages(null);
+                }
+                if(myAudioRecorder != null) {
+                    myAudioRecorder.stop();
+                    myAudioRecorder.reset();
+                    myAudioRecorder.release();
+                    myAudioRecorder = null;
+                }
+
+                record.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        record.clearAnimation();
+                    }
+                });
+
+                h.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        play.post(new Runnable() {
+                            @Override
+                            public void run() {
+                                play.startAnimation(AnimationUtils.loadAnimation(getApplication(), R.anim.circle_enter));
+                                play.setVisibility(View.VISIBLE);
+                            }
+                        });
+
+                        send.post(new Runnable() {
+                            @Override
+                            public void run() {
+                                send.setEnabled(true);
+                            }
+                        });
+
+                        retry.post(new Runnable() {
+                            @Override
+                            public void run() {
+                                retry.setEnabled(true);
+                            }
+                        });
+                    }
+                }, 400);
+
+                circle.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        circle.clear();
+                        circle.startAnimation(AnimationUtils.loadAnimation(getApplication(), R.anim.fade_out));
+                    }
+                });
+
+            }
+        }.start();
 
         byte[] data = AudioFileToBytes(outputFile);
         file = new ParseFile("recording.3gpp", data);
