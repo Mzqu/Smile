@@ -1,15 +1,15 @@
 package mq.org.smile;
 
-import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.view.GestureDetectorCompat;
+import android.support.v7.app.AppCompatActivity;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
 
 /**
  * Created by Michael on 11/12/15.
  */
-public class SwipeableActivity extends Activity implements GestureDetector.OnGestureListener{
+public class SwipeableActivity extends AppCompatActivity implements GestureDetector.OnGestureListener{
     GestureDetectorCompat mDetector;
     private final int minSpeed = 200, minDistance = 200, maxStray = 100;
 

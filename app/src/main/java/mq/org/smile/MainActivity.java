@@ -1,9 +1,10 @@
 package mq.org.smile;
 
-import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -16,7 +17,7 @@ import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
 
-public class MainActivity extends Activity {
+public class MainActivity extends AppCompatActivity {
     private boolean loadBar = true;
 
     @Override
@@ -28,6 +29,9 @@ public class MainActivity extends Activity {
             loadLoginView();
         }
         setContentView(R.layout.activity_main);
+
+        Toolbar toolbar = (Toolbar) findViewById(R.id.tool_bar); // Attaching the layout to the toolbar object
+        setSupportActionBar(toolbar);
 
         ((Button)findViewById(R.id.toRecord)).setOnClickListener(new View.OnClickListener() {
             @Override
