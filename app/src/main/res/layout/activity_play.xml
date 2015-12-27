@@ -33,16 +33,10 @@
             android:layout_centerVertical="true"
 
             android:text="Request"
-            android:textColor="#F2B3FF"
             android:textSize="30sp"
 
             android:layout_width="150dp"
             android:layout_height="60dp"
-            android:background="@drawable/buttonshape"
-            android:shadowColor="#8857A8"
-            android:shadowDx="0"
-            android:shadowDy="0"
-            android:shadowRadius="5"
             />
 
         <TextView

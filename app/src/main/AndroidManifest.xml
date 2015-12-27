@@ -5,6 +5,7 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
 
     <application
@@ -53,11 +54,11 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="mq.org.smile.MainActivity" />
         </activity>
-        <activity android:name="mq.org.smile.ProfileActivity" >
+        <activity android:name="mq.org.smile.ProfileActivity" android:screenOrientation="portrait"  >
         </activity>
-        <activity android:name="mq.org.smile.ResetPasswordActivity" >
+        <activity android:name="mq.org.smile.ResetPasswordActivity" android:screenOrientation="portrait" >
         </activity>
-        <activity android:name="mq.org.smile.ResetSubmitActivity" >
+        <activity android:name="mq.org.smile.ResetSubmitActivity" android:screenOrientation="portrait" >
         </activity>
     </application>
 

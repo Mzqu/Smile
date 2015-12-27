@@ -19,6 +19,7 @@ import com.parse.ParseUser;
 
 public class MainActivity extends AppCompatActivity {
     private boolean loadBar = true;
+    ProgressDialog progressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,11 +63,13 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onPause(){
         super.onPause();
+        if(progressBar != null)
+            progressBar.dismiss();
         loadBar = false;
     }
 
     private void updateStuff(){
-        final ProgressDialog progressBar = new ProgressDialog(this);
+        progressBar = new ProgressDialog(this);
         progressBar.setCancelable(false);
         progressBar.setMessage("Updating...");
         progressBar.setProgressStyle(ProgressDialog.STYLE_SPINNER);
@@ -77,8 +80,10 @@ public class MainActivity extends AppCompatActivity {
         query.getFirstInBackground(new GetCallback<ParseObject>() {
             @Override
             public void done(ParseObject obj, ParseException e) {
-                if(loadBar)
+                if(loadBar) {
                     progressBar.dismiss();
+                    progressBar = null;
+                }
 
                 if (obj == null)
                     ((TextView) findViewById(R.id.points)).setText("0 points");

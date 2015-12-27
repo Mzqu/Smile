@@ -27,7 +27,6 @@ import com.parse.SaveCallback;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 
 
@@ -39,7 +38,7 @@ public class RecordActivity extends SwipeableActivity{
     Handler h = new Handler();
     private MediaRecorder myAudioRecorder;
     private MediaPlayer m;
-    private String outputFile = null;
+    private String outputFile = null, testFile = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,7 +57,7 @@ public class RecordActivity extends SwipeableActivity{
         play.setVisibility(View.INVISIBLE);
         retry.setEnabled(false);
         send.setEnabled(false);
-        outputFile = Environment.getExternalStorageDirectory().getAbsolutePath() + "/recording.3gp";
+        outputFile = Environment.getExternalStorageDirectory().getAbsolutePath() + "/recording.mp3";
 
         record.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -67,7 +66,7 @@ public class RecordActivity extends SwipeableActivity{
                     try {
                         myAudioRecorder = new MediaRecorder();
                         myAudioRecorder.setAudioSource(MediaRecorder.AudioSource.MIC);
-                        myAudioRecorder.setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP);
+                        myAudioRecorder.setOutputFormat(MediaRecorder.OutputFormat.DEFAULT);
                         myAudioRecorder.setAudioEncoder(MediaRecorder.OutputFormat.AMR_NB);
                         myAudioRecorder.setOutputFile(outputFile);
                         myAudioRecorder.prepare();
@@ -194,6 +193,22 @@ public class RecordActivity extends SwipeableActivity{
                 progressBar.setMessage("Sending...");
                 progressBar.setProgressStyle(ProgressDialog.STYLE_SPINNER);
                 progressBar.show();
+
+                FileInputStream fileInputStream = null;
+                File fileObj = new File(outputFile);
+                byte[] data = new byte[(int) fileObj.length()];
+
+                try {
+                    //convert file into array of bytes
+                    fileInputStream = new FileInputStream(fileObj);
+                    fileInputStream.read(data);
+                    fileInputStream.close();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
+                file = new ParseFile("recording.mp3", data);
+                file.saveInBackground();
 
                 final ParseObject recording = new ParseObject("Recording");
                 recording.put("audio", file);
@@ -330,56 +345,6 @@ public class RecordActivity extends SwipeableActivity{
 
             }
         }.start();
-
-        byte[] data = AudioFileToBytes(outputFile);
-        file = new ParseFile("recording.3gpp", data);
-        file.saveInBackground(new SaveCallback() {
-            public void done(ParseException e) {
-                if (e == null) {
-                    // Saved successfully.
-                    Toast.makeText(getApplicationContext(), "Audio recorded successfully", Toast.LENGTH_SHORT).show();
-                } else {
-                    // The save failed.
-                    Toast.makeText(getApplicationContext(), "Failed to Save", Toast.LENGTH_SHORT).show();
-                    Log.d(getClass().getSimpleName(), "User update error: " + e);
-                }
-            }
-        });
-    }
-
-    public byte[] AudioFileToBytes(final String filePath){
-        File file = new File(filePath);
-        FileInputStream fin = null;
-        try {
-            // create FileInputStream object
-            fin = new FileInputStream(file);
-
-            byte fileContent[] = new byte[(int)file.length()];
-
-            // Reads up to certain bytes of data from this input stream into an array of bytes.
-            fin.read(fileContent);
-            //create string from byte array
-            String s = new String(fileContent);
-            return fileContent;
-        }
-        catch (FileNotFoundException e) {
-            System.out.println("File not found" + e);
-        }
-        catch (IOException ioe) {
-            System.out.println("Exception while reading file " + ioe);
-        }
-        finally {
-            // close the streams using close method
-            try {
-                if (fin != null) {
-                    fin.close();
-                }
-            }
-            catch (IOException ioe) {
-                System.out.println("Error while closing stream: " + ioe);
-            }
-        }
-        return null;
     }
 
     @Override
