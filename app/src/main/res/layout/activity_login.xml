@@ -19,7 +19,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <EditText
+        <mq.org.smile.FontEditText
             android:singleLine="true"
             android:id="@+id/usernameField"
             android:layout_width="match_parent"
@@ -30,9 +30,9 @@
             android:hint="@string/username_hint" >
 
             <requestFocus />
-        </EditText>
+        </mq.org.smile.FontEditText>
 
-        <EditText
+        <mq.org.smile.FontEditText
             android:singleLine="true"
             android:id="@+id/passwordField"
             android:layout_width="match_parent"
@@ -43,30 +43,34 @@
             android:hint="@string/password_hint"
             android:inputType="textPassword" />
 
-        <Button
+        <mq.org.smile.FontButton
             android:id="@+id/loginButton"
-            android:layout_width="match_parent"
+            android:layout_width="200dp"
             android:layout_height="wrap_content"
-            android:layout_alignLeft="@+id/passwordField"
+            android:text="@string/login_button_label"
+            android:textSize="30sp"
             android:layout_below="@+id/passwordField"
-            android:text="@string/login_button_label" />
+            android:layout_marginTop="20dp"
+            android:layout_centerHorizontal="true" />
 
-        <TextView
+        <mq.org.smile.FontTextView
             android:id="@+id/signUpText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/loginButton"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="69dp"
+            android:layout_marginTop="180dp"
+            android:textSize="30sp"
             android:text="@string/sign_up_text" />
 
-        <TextView
+        <mq.org.smile.FontTextView
             android:id="@+id/resetPassword"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/signUpText"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="40dp"
+            android:layout_marginTop="20dp"
+            android:textSize="30sp"
             android:text="Forgot password?" />
 
         </RelativeLayout>

@@ -12,9 +12,9 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
+import android.view.animation.AnimationUtils;
+import android.widget.ImageButton;
 import android.widget.RatingBar;
-import android.widget.TextView;
 
 import com.parse.CountCallback;
 import com.parse.GetCallback;
@@ -38,9 +38,9 @@ public class PlayActivity extends SwipeableActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        final Button play = (Button) findViewById(R.id.playButton);
-        final Button request = (Button) findViewById(R.id.requestButton);
-        final TextView noMessages = (TextView) findViewById(R.id.noMessagesText);
+        final ImageButton play = (ImageButton) findViewById(R.id.playButton);
+        final FontButton request = (FontButton) findViewById(R.id.requestButton);
+        final FontTextView noMessages = (FontTextView) findViewById(R.id.noMessagesText);
 
         noMessages.setVisibility(View.INVISIBLE);
         play.setVisibility(View.INVISIBLE);
@@ -101,7 +101,8 @@ public class PlayActivity extends SwipeableActivity {
 
                                                             @Override
                                                             public void onClick(View view) {
-                                                                play.setEnabled(false);
+                                                                play.setVisibility(View.INVISIBLE);
+                                                                play.startAnimation(AnimationUtils.loadAnimation(getApplication(), R.anim.circle_exit));
 
                                                                 m = new MediaPlayer();
                                                                 m.setAudioStreamType(AudioManager.STREAM_MUSIC);
@@ -120,18 +121,20 @@ public class PlayActivity extends SwipeableActivity {
                                                                             m.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
                                                                                 @Override
                                                                                 public void onCompletion(MediaPlayer mediaPlayer) {
+                                                                                    play.setVisibility(View.VISIBLE);
+                                                                                    play.startAnimation(AnimationUtils.loadAnimation(getApplication(), R.anim.circle_enter));
                                                                                     ((RecordingProgressCircle) findViewById(R.id.progressCircle)).clear();
-                                                                                    play.setEnabled(true);
+                                                                                    ((RecordingProgressCircle) findViewById(R.id.progressCircle)).startAnimation(AnimationUtils.loadAnimation(getApplication(), R.anim.fade_out));
 
                                                                                     final Dialog rankDialog = new Dialog(PlayActivity.this, R.style.FullHeightDialog);
                                                                                     rankDialog.setContentView(R.layout.rank_dialog);
                                                                                     rankDialog.setCancelable(false);
                                                                                     final RatingBar ratingBar = (RatingBar) rankDialog.findViewById(R.id.dialog_ratingbar);
 
-                                                                                    TextView text = (TextView) rankDialog.findViewById(R.id.rank_dialog_text1);
+                                                                                    FontTextView text = (FontTextView) rankDialog.findViewById(R.id.rank_dialog_text1);
                                                                                     text.setText("Rate This Message");
 
-                                                                                    Button updateButton = (Button) rankDialog.findViewById(R.id.rank_dialog_button);
+                                                                                    FontButton updateButton = (FontButton) rankDialog.findViewById(R.id.rank_dialog_button);
                                                                                     updateButton.setOnClickListener(new View.OnClickListener() {
                                                                                         @Override
                                                                                         public void onClick(View v) {

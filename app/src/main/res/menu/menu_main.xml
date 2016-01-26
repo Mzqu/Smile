@@ -6,16 +6,16 @@
         android:orderInCategory="100" app:showAsAction="never" />
     <item
         android:id="@+id/action_refresh"
-        android:icon="@drawable/ic_autorenew_black_24dp"
+        android:icon="@drawable/ic_autorenew_white_24dp"
         app:showAsAction="always"
         android:title="Refresh">
     </item>
 
     <item
         android:id="@+id/action_new"
-        android:title="New Note"
+        android:title="Profile"
         app:showAsAction="always"
-        android:icon="@drawable/ic_note_add_black_24dp"/>
+        android:icon="@drawable/ic_account_circle_white_24dp"/>
 
     <item
         android:id="@+id/action_logout"

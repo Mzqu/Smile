@@ -22,7 +22,7 @@
         android:background="@color/background"
         android:orientation="vertical">
 
-        <TextView
+        <mq.org.smile.FontTextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Username"
@@ -30,7 +30,7 @@
             android:textSize="30sp"
             android:id="@+id/username"/>
 
-        <TextView
+        <mq.org.smile.FontTextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="0 points"
@@ -38,7 +38,7 @@
             android:textSize="20sp"
             android:id="@+id/points"/>
 
-        <TextView
+        <mq.org.smile.FontTextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
@@ -46,7 +46,7 @@
             android:textSize="20sp"
             android:id="@+id/userSince"/>
 
-        <TextView
+        <mq.org.smile.FontTextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"

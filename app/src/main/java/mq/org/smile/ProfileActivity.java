@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.TextView;
 
 import com.parse.GetCallback;
 import com.parse.ParseException;
@@ -32,8 +31,8 @@ public class ProfileActivity extends SwipeableActivity{
         progressBar.setProgressStyle(ProgressDialog.STYLE_SPINNER);
         progressBar.show();
 
-        ((TextView)findViewById(R.id.username)).setText(ParseUser.getCurrentUser().getUsername());
-        ((TextView)findViewById(R.id.userSince)).setText("User since " + ParseUser.getCurrentUser().getCreatedAt());
+        ((FontTextView)findViewById(R.id.username)).setText(ParseUser.getCurrentUser().getUsername());
+        ((FontTextView)findViewById(R.id.userSince)).setText("User since " + ParseUser.getCurrentUser().getCreatedAt());
         final ParseQuery<ParseObject> pointsQuery = ParseQuery.getQuery("Points");
         pointsQuery.whereEqualTo("author", ParseUser.getCurrentUser());
         pointsQuery.getFirstInBackground(new GetCallback<ParseObject>() {
@@ -41,21 +40,21 @@ public class ProfileActivity extends SwipeableActivity{
             public void done(ParseObject parseObject, ParseException e) {
                 progressBar.dismiss();
                 if (parseObject == null)
-                    ((TextView) findViewById(R.id.points)).setText("0 points");
+                    ((FontTextView) findViewById(R.id.points)).setText("0 points");
                 else
-                    ((TextView) findViewById(R.id.points)).setText(parseObject.get("amount") + " points");
+                    ((FontTextView) findViewById(R.id.points)).setText(parseObject.get("amount") + " points");
                 final ParseQuery<ParseObject> ratingQuery = ParseQuery.getQuery("Rating");
                 ratingQuery.whereEqualTo("author", ParseUser.getCurrentUser());
                 ratingQuery.getFirstInBackground(new GetCallback<ParseObject>() {
                     @Override
                     public void done(ParseObject parseObject, ParseException e) {
                         if (parseObject == null)
-                            ((TextView) findViewById(R.id.rating)).setText("No rating yet.");
+                            ((FontTextView) findViewById(R.id.rating)).setText("No rating yet.");
                         else {
                             float temp = Float.parseFloat((String) parseObject.get("rating"));
                             int temp2 = (int) (temp * 10);
                             double fin = temp2 / 10;
-                            ((TextView) findViewById(R.id.rating)).setText("Rating: " + fin);
+                            ((FontTextView) findViewById(R.id.rating)).setText("Rating: " + fin);
                         }
                     }
                 });

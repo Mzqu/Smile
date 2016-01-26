@@ -9,9 +9,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 
 import com.parse.LogInCallback;
 import com.parse.ParseException;
@@ -21,9 +19,9 @@ public class LoginActivity extends AppCompatActivity {
 
     protected EditText usernameEditText;
     protected EditText passwordEditText;
-    protected Button loginButton;
+    protected FontButton loginButton;
 
-    protected TextView signUpTextView, resetPasswordTextView;
+    protected FontTextView signUpTextView, resetPasswordTextView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,11 +30,11 @@ public class LoginActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.tool_bar); // Attaching the layout to the toolbar object
         setSupportActionBar(toolbar);
 
-        signUpTextView = (TextView)findViewById(R.id.signUpText);
+        signUpTextView = (FontTextView)findViewById(R.id.signUpText);
         usernameEditText = (EditText)findViewById(R.id.usernameField);
         passwordEditText = (EditText)findViewById(R.id.passwordField);
-        loginButton = (Button)findViewById(R.id.loginButton);
-        resetPasswordTextView = (TextView)findViewById(R.id.resetPassword);
+        loginButton = (FontButton)findViewById(R.id.loginButton);
+        resetPasswordTextView = (FontTextView)findViewById(R.id.resetPassword);
 
         signUpTextView.setOnClickListener(new View.OnClickListener() {
             @Override

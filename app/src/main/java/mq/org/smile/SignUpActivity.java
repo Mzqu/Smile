@@ -8,7 +8,6 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 
 import com.parse.ParseException;
@@ -19,7 +18,7 @@ public class SignUpActivity extends SwipeableActivity {
     protected EditText usernameEditText;
     protected EditText passwordEditText;
     protected EditText emailEditText;
-    protected Button signUpButton;
+    protected FontButton signUpButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,7 +31,7 @@ public class SignUpActivity extends SwipeableActivity {
         usernameEditText = (EditText)findViewById(R.id.usernameField);
         passwordEditText = (EditText)findViewById(R.id.passwordField);
         emailEditText = (EditText)findViewById(R.id.emailField);
-        signUpButton = (Button)findViewById(R.id.signupButton);
+        signUpButton = (FontButton)findViewById(R.id.signupButton);
 
         signUpButton.setOnClickListener(new View.OnClickListener() {
             @Override

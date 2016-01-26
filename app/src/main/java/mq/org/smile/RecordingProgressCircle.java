@@ -34,7 +34,7 @@ public class RecordingProgressCircle extends View {
         paint.setStyle(Paint.Style.STROKE);
         paint.setStrokeWidth(stroke);
         //Circle color
-        paint.setColor(Color.RED);
+        paint.setColor(Color.parseColor("#FF5B3D"));
 
         //size 200x200 example
         rect = new RectF(stroke, stroke, size - stroke, size - stroke);

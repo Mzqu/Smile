@@ -215,7 +215,8 @@ public class RecordActivity extends SwipeableActivity{
                 recording.put("author", ParseUser.getCurrentUser());
                 recording.saveInBackground(new SaveCallback() {
                     public void done(ParseException e) {
-                        progressBar.dismiss();
+                        if(progressBar != null)
+                            progressBar.dismiss();
                         if (e == null) {
                             // Saved successfully.
                         } else {

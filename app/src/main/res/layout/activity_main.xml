@@ -25,44 +25,52 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
-                <TextView
+                <mq.org.smile.FontTextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:gravity="left"
-                    android:textSize="25sp"
+                    android:gravity="center_vertical|left"
+                    android:textSize="40sp"
                     android:layout_gravity="left"
                     android:id="@+id/user"/>
-                <TextView
+                <mq.org.smile.FontTextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:gravity="right"
+                    android:gravity="center_vertical|right"
                     android:layout_gravity="end"
-                    android:textSize="25sp"
+                    android:textSize="40sp"
                     android:id="@+id/points"/>
             </LinearLayout>
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical">
-                <Button
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:text="RECORD"
-                    android:id="@+id/toRecord"
-                    android:textSize="30sp"/>
                 <android.widget.Space
                     android:layout_width="match_parent"
-                    android:layout_height="16dp" />
-                <Button
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_height="66dp" />
+                <mq.org.smile.FontButton
+                    android:layout_gravity="center"
                     android:layout_weight="1"
+                    android:layout_width="250dp"
+                    android:layout_height="wrap_content"
+                    android:text="RECORD"
+                    android:id="@+id/toRecord"
+                    android:textSize="70sp"/>
+                <android.widget.Space
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp" />
+                <mq.org.smile.FontButton
+                    android:layout_weight="1"
+                    android:layout_gravity="center"
+                    android:layout_width="250dp"
+                    android:layout_height="wrap_content"
                     android:text="PLAY"
                     android:id="@+id/toPlay"
-                    android:textSize="30sp"/>
+                    android:textSize="70sp"/>
+                <android.widget.Space
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp" />
             </LinearLayout>
         </LinearLayout>
     </RelativeLayout>

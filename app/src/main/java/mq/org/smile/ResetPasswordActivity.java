@@ -6,7 +6,6 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 
 import com.parse.ParseException;
@@ -23,7 +22,7 @@ public class ResetPasswordActivity extends SwipeableActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        ((Button)findViewById(R.id.resetSubmit)).setOnClickListener(new View.OnClickListener() {
+        ((FontButton)findViewById(R.id.resetSubmit)).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 ParseUser.requestPasswordResetInBackground(((EditText) findViewById(R.id.emailField)).getText().toString(), new RequestPasswordResetCallback() {

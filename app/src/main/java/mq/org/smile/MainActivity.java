@@ -8,8 +8,6 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
-import android.widget.TextView;
 
 import com.parse.GetCallback;
 import com.parse.ParseException;
@@ -34,7 +32,7 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.tool_bar); // Attaching the layout to the toolbar object
         setSupportActionBar(toolbar);
 
-        ((Button)findViewById(R.id.toRecord)).setOnClickListener(new View.OnClickListener() {
+        ((FontButton)findViewById(R.id.toRecord)).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(MainActivity.this, RecordActivity.class);
@@ -43,7 +41,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        ((Button)findViewById(R.id.toPlay)).setOnClickListener(new View.OnClickListener() {
+        ((FontButton)findViewById(R.id.toPlay)).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(MainActivity.this, PlayActivity.class);
@@ -86,13 +84,13 @@ public class MainActivity extends AppCompatActivity {
                 }
 
                 if (obj == null)
-                    ((TextView) findViewById(R.id.points)).setText("0 points");
+                    ((FontTextView) findViewById(R.id.points)).setText("0 points");
                 else
-                    ((TextView) findViewById(R.id.points)).setText(obj.get("amount") + " points");
+                    ((FontTextView) findViewById(R.id.points)).setText(obj.get("amount") + " points");
             }
         });
         if(ParseUser.getCurrentUser() != null)
-            ((TextView)findViewById(R.id.user)).setText(ParseUser.getCurrentUser().getUsername());
+            ((FontTextView)findViewById(R.id.user)).setText(ParseUser.getCurrentUser().getUsername());
     }
 
     private void loadLoginView() {
